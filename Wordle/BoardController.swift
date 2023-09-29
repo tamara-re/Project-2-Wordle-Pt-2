@@ -48,9 +48,15 @@ class BoardController: NSObject,
   // Exercise 5 Pt. 2 (optional): This function only needs to be implemented if you decide to do the optional requirement (see Pt. 1 in ViewController.swift)
   // This function should reset the board with the current settings without changing the goalWord
   // Tip: Take a look at how resetBoard is implemented above. The only difference is that you don't want to change the settings
-  func resetBoardWithCurrentSettings() {
+    func resetBoardWithCurrentSettings() {
     // START YOUR CODE HERE
     // ...
+//      applyNumLettersSettings(with: settings)
+//      applyNumGuessesSettings(with: settings)
+//      applyThemeSettings(with: settings)
+//      applyIsAlienWordleSettings(with: settings)
+      numTimesGuessed = 0
+      collectionView.reloadData()
     // END YOUR CODE HERE
   }
   
@@ -63,6 +69,9 @@ class BoardController: NSObject,
   private func applyNumLettersSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      if let numLetters = settings[kNumLettersKey] as? Int {
+          numItemsPerRow = numLetters
+      }
     // END YOUR CODE HERE
   }
   
@@ -75,6 +84,9 @@ class BoardController: NSObject,
   private func applyNumGuessesSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      if let numGuesses = settings[kNumGuessesKey] as? Int {
+          numRows = numGuesses
+      }
     // END YOUR CODE HERE
   }
   
@@ -88,6 +100,13 @@ class BoardController: NSObject,
   private func applyThemeSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
     // ...
+      
+      print("first theme ", (goalWord))
+      if let myTheme = settings[kWordThemeKey] as? String, let theme = WordTheme(rawValue: myTheme){
+          goalWord = WordGenerator.generateGoalWord(with: theme)
+      }
+      print("second theme", (goalWord))
+
     // END YOUR CODE HERE
   }
   
@@ -97,7 +116,11 @@ class BoardController: NSObject,
   // Checkpoint: Correctly implementing this function should change the goal word each time the user inputs an entire row of letters
   private func applyIsAlienWordleSettings(with settings: [String: Any]) {
     // START YOUR CODE HERE
-    // ...
+      
+      if let alienSet = settings[kIsAlienWordleKey] as? Bool {
+          isAlienWordle = alienSet
+      }
+      
     // START YOUR CODE HERE
   }
 }
